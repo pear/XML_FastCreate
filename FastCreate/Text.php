@@ -1,96 +1,94 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
-// +----------------------------------------------------------------------+
-// | PHP version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2002 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at                              |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author: Guillaume Lecanu <guillaume.lecanu@online.fr>                |
-// +----------------------------------------------------------------------+
-//
-// $Id$
+
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Text driver for XML_FastCreate.
- * Use standard string to make XML.
+ * Text driver for the XML_FastCreate object.
  *
- *  $x =& XML_FastCreate::factory('Text',
+ * This file contains the default driver class 'Text' for XML_FastCreate.
  *
- *            // Options list of this driver
- *            array(
- *                
- *              // Use the XHTML 1.0 Strict doctype
- *              'doctype'   :   XML_FASTCREATE_DOCTYPE_XHTML_1_0_STRICT
- *            ),
+ * PHP versions 4 and 5
  *
- *            // Options list of FastCreate
- *            array(
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
  *
- *            )
- *     );
- *  
+ * @category   XML
+ * @package    XML_FastCreate
+ * @author     Guillaume Lecanu <Guillaume@dev.fr>
+ * @copyright  1997-2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/XML_FastCreate
+ * @see        XML_Tree
  */
 
 require_once 'XML/FastCreate.php';
 
+// {{{ XML_FastCreate_Text
+
+/**
+ * Text driver for the XML_FastCreate object.
+ *
+ * This is the default driver to use, all XML is a string value.
+ * ex:  $x =& XML_FastCreate::factory('Text');
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   XML
+ * @package    XML_FastCreate
+ * @author     Guillaume Lecanu <Guillaume@dev.fr>
+ * @copyright  1997-2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/XML_FastCreate
+ * @see        XML_Tree
+ */
 class XML_FastCreate_Text extends XML_FastCreate
 {
- var $_factory = true;
- var $_options = array();
- var $xml = '';
+    // {{{ properties
+    
+    /**
+    * Boolean to known if the end-developper has used the factory() method
+    *
+    * @var      boolean
+    * @access   private
+    */
+    var $_factory = true;
+    
+    /**
+    * Options list to used with the XML_FastCreate() constructor
+    *
+    * @var      array
+    * @access   private
+    */
+    var $_options = array();
+    
+    /**
+    * XML generated 
+    *
+    * @var      string
+    * @access   public
+    */
+    var $xml = '';
 
+    // }}}
+    // {{{ XML_FastCreate_Text()
+    
     /** 
-     *  Constructor
+     *  Make an instance of the XML_FastCreate_Text driver.
      *
-     *  @param array List of options 
+     *  @param array $list      List of options. See XML_FastCreate:factory()
      *
-     *      'version' :     Set the XML version (default = '1.0')
-     *
-     *      'encoding' :    Set the encoding charset (default = 'UTF-8')
-     *
-     *      'standalone' :  Set the standalone attribute (default = 'no')
-     *
-     *      'doctype'   :   DocType string, set manually or use :
-     *          XML_FASTCREATE_DOCTYPE_XHTML_1_1
-     *          XML_FASTCREATE_DOCTYPE_XHTML_1_0_STRICT
-     *          XML_FASTCREATE_DOCTYPE_XHTML_1_0_FRAMESET
-     *          XML_FASTCREATE_DOCTYPE_XHTML_1_0_TRANSITIONAL
-     *          XML_FASTCREATE_DOCTYPE_HTML_4_01_STRICT
-     *          XML_FASTCREATE_DOCTYPE_HTML_4_01_FRAMESET
-     *          XML_FASTCREATE_DOCTYPE_HTML_4_01_TRANSITIONAL
-     *
-     *      'quote' : auto quote attributes & contents (default = true)
-     *
-     *   Specials options :
-     *
-     *      'expand' :  Return single tag with the syntax : 
-     *                  <tag></tag> rather <tag /> (default = false)
-     *                  ( set to true if you write HTML )
-     *          
-     *      'apos' :    Quote apostrophe to its entitie &apos; (default = true) 
-     *                  <! WARNING !>
-     *                  For valid XML, you must let this option to true.
-     *                  If you write XHTML, Internet Explorer won't recognize 
-     *                  this entitie, so turn this option to false.
-     *
-     *      'singleAttribute' : Accept single attributes (default = false)
-     *            ex :  $x->input(array('type'=>'checkbox', checked=>true))
-     *              =>  <input type="checkbox" checked />
-     *                  <! WARNING !> 
-     *                  This syntax is not valid XML.
-     *                  For valid XML, don't use this option.
-     *            ex :  $x->input(array('type'=>'checkbox', checked=>'checked'))
-     *              =>  <input type="checkbox" checked=>"checked" />
-     *
-     *  @return object XML_FastCreate_Text
+     *  @return object          An XML_FastCreate_Text instance
      *  @access public
      */
     function XML_FastCreate_Text($options = array())
@@ -120,15 +118,17 @@ class XML_FastCreate_Text extends XML_FastCreate
             $this->_options['singleAttribute'] = false;
         }
     }
+    // }}}
+    // {{{ makeXML()
 
     /**
-     * Make a XML tag 
-     * 
-     * @param string Name of the tag
-     * @param array List of attributes
-     * @param array List of contents (strings or sub tags)
+     * Make an XML Tag 
      *
-     * @return string reprensenting the XML tag
+     * @param string $tag       Name of the tag
+     * @param array $attribs    List of attributes
+     * @param array $contents   List of contents (strings or sub tags)
+     * 
+     * @return string           The XML String
      * @access public
      */
     function makeXML($tag, $attribs = array(), $contents = array())
@@ -168,28 +168,30 @@ class XML_FastCreate_Text extends XML_FastCreate
         $this->xml = $this->cr.$this->_quoted($element);
         return $this->xml;
     }
-
+    // }}}
+    // {{{ comment()
     
     /**
-     * Make a XML comment
+     * Make an XML comment
      *
-     * @param string The content to comment
+     * @param mixed $content    Content to comment
      * 
-     * @return string The content commented
+     * @return string           The XML content commented
      * @access public
      */
     function comment($content)
     {
         return $this->_quoted('<!-- '.$content.' -->');
     }
-
+    // }}}
+    // {{{ cdata()
     
     /**
-     * Make a CDATA section <![CDATA[ (...) ]]> 
+     * Make a CDATA section <![CDATA[ (...) ]]>
      *
-     * @param string The content of the section
+     * @param mixed $content    Content of the section
      * 
-     * @return string The CDATA section
+     * @return string           The XML cdata content
      * @access public
      */
     function cdata($content)
@@ -198,12 +200,13 @@ class XML_FastCreate_Text extends XML_FastCreate
                 .$this->cr.$content
                 .$this->cr.'/*]]>*/');
     }
-
+    // }}}
+    // {{{ getXML()
 
     /**
-     * Return the current XML text.
+     * Return the current XML text 
      *
-     * @return string The current XML text
+     * @return string           The current XML text
      * @access public
      */
     function getXML()
@@ -217,26 +220,30 @@ class XML_FastCreate_Text extends XML_FastCreate
         }
         return $header.$this->_unquote($this->xml);
     }
+    // }}}
+    // {{{ importXML()
 
     /**
      * Import XML text to driver data
      *
-     * @param string The XML text
+     * @param string $xml       The XML text
      * 
-     * @return string The XML text
+     * @return string           The XML text (correctly quoted)
      * @access public
      */
     function importXML($xml) 
     {
         return $this->_quoted($xml);
     }
+    // }}}
+    // {{{ exportXML()
     
     /**
-     * Export driver data to XML text 
+     * Export driver data to XML text
      *
-     * @param array List of contents
+     * @param string $xml       The XML data (from XML_FastCreate_Text)
      * 
-     * @return string The XML text
+     * @return string           The XML text output
      * @access public
      */
     function exportXML($data = array()) 
@@ -247,18 +254,20 @@ class XML_FastCreate_Text extends XML_FastCreate
         }
         return $this->cr.$xml.$this->cr;
     }
+    // }}}
+    // {{{ quote()
 
     /**
      * Encode a string to be include in XML tags.
      *
-     * To use only if the 'quote' is false
+     * To use only if the 'quoteContents' is false
      * Convert :  &      <     >     "       '
      *      To :  &amp;  &lt;  &gt;  &quot;  &apos;
      * 
-     * @param string Content to be quoted
+     * @param string $content   Content to be quoted
      *
-     * @return string The quoted content
-     * @access  public
+     * @return string           The quoted content
+     * @access public
      */
     function quote($str)
     {
@@ -297,37 +306,47 @@ class XML_FastCreate_Text extends XML_FastCreate
         }
         return $new;
     }
+    // }}}
+    // {{{ noquote()
 
     /**
-     *  Don't quote 
+     * Don't quote this content.
      *
-     *  @param string Content
-     *  @return string Content without "quoted tags"
-     *  @access private 
+     * To use only if the 'quoteContents' is true
+     * 
+     * @param string $content   Content to escape quoting
+     *
+     * @return string           The content not quoted
+     * @access public
      */
     function noquote($str) 
     {
         return '<_>'.$str.'</_>';
     }
+    // }}}
+    // {{{ _unquote()
 
     /**
      *  Remove all "quoted tags"
      *
-     *  @param string Content
-     *  @return string Content without "quoted tags"
+     *  @param string $str      Content
+     *
+     *  @return string          Content without "quoted tags"
      *  @access private 
      */
     function _unquote($str) 
     {
         return str_replace(array('<_>', '</_>'), array('', ''), $str);
     }
-
+    // }}}
+    // {{{ _quoted()
 
     /** 
      *  Define this content 'quoted'
      *
-     *  @param string Content to declare quoted
-     *  @return string Content quoted
+     *  @param string $content  Content to declare quoted
+     *
+     *  @return string          Content quoted
      *  @access private
      */
     function _quoted($content) 
@@ -337,7 +356,9 @@ class XML_FastCreate_Text extends XML_FastCreate
         }
         return $content;
     }
+    // }}}
 
 }
+// }}}
 
 ?>

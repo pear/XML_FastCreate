@@ -1,9 +1,9 @@
 <?php
-require_once 'XML/FastCreate/XML_Tree.php';
+require_once 'XML/FastCreate.php';
 error_reporting(E_ALL);
 
 // Create XML with the XML_Tree Driver
-$x = new XML_FastCreate_XML_Tree(
+$x =& XML_FastCreate::factory('XML_Tree',
 
     array(
 
@@ -13,7 +13,7 @@ $x = new XML_FastCreate_XML_Tree(
         // Export XML to a file (default : /tmp/XML_FastCreate.xml)
         'file'		=> XML_FASTCREATE_FILE,
 
-        // Check validity with an external program : xmllint
+        // Check validity with an external program (default: xmllint)
         'exec'      => XML_FASTCREATE_EXEC,
 
 		// Make indentation

@@ -1,81 +1,100 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
-// +----------------------------------------------------------------------+
-// | PHP version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2002 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at                              |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author: Guillaume Lecanu <guillaume.lecanu@online.fr>                |
-// +----------------------------------------------------------------------+
-//
-// $Id$
+
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * XML_Tree driver for XML_FastCreate.
- * Use XML_Tree object rather text string
+ * XML_Tree driver for the XML_FastCreate object.
  *
- *  $x =& XML_FastCreate::factory('XML_Tree',
+ * This file contains the driver class 'XML_Tree' for XML_FastCreate.
  *
- *            // Options list of this driver
- *            array(
- *                
- *              // Use the XHTML 1.0 Strict doctype
- *              'doctype'   :   XML_FASTCREATE_DOCTYPE_XHTML_1_0_STRICT
- *            ),
+ * PHP versions 4 and 5
  *
- *            // Options list of FastCreate
- *            array(
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
  *
- *            )
- *     );
- *
- * KNOW BUGS :
- * - XML_Tree is a beta version, some features don't work in XML_Tree output
- *      - noquote(), comment() and cdata() are not yet possible with XML_Tree
- *      - singleAttribute option is not possible 
- *      - expand option cannot be disable
+ * @category   XML
+ * @package    XML_FastCreate
+ * @author     Guillaume Lecanu <Guillaume@dev.fr>
+ * @copyright  1997-2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/XML_FastCreate
+ * @see        XML_Tree
  */
 
 require_once 'XML/FastCreate.php';
 require_once 'XML/Tree.php';
 
+// {{{ XML_FastCreate_XML_Tree
+
+/**
+ * XML_Tree driver for the XML_FastCreate object.
+ *
+ * This driver offer the possibility to manipulate XML_Tree object.
+ * ex:  $x =& XML_FastCreate::factory('XML_Tree');
+ * KNOWN BUGS :
+ * => Some features don't work in XML_Tree output :
+ *      - noquote(), comment() and cdata() are not yet possible with XML_Tree
+ *      - singleAttribute option is not possible 
+ *      - expand option cannot be disable
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   XML
+ * @package    XML_FastCreate
+ * @author     Guillaume Lecanu <Guillaume@dev.fr>
+ * @copyright  1997-2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/XML_FastCreate
+ * @see        XML_Tree
+ */
 class XML_FastCreate_XML_Tree extends XML_FastCreate
 {
- var $_factory = true;
- var $_options = array();
- var $xml;
+    // {{{ properties
+    
+    /**
+    * Boolean to known if the end-developper has used the factory() method
+    *
+    * @var      boolean
+    * @access   private
+    */
+    var $_factory = true;
+    
+    /**
+    * Options list to used with the XML_FastCreate() constructor
+    *
+    * @var      array
+    * @access   private
+    */
+    var $_options = array();
+    
+    /**
+    * XML generated 
+    *
+    * @var      string
+    * @access   public
+    */
+    var $xml = '';
+
+    // }}}
+    // {{{ XML_FastCreate_XML_Tree()
 
     /** 
-     *  Constructor
+     *  Make an instance of the XML_FastCreate_XML_Tree driver.
      *
-     *  @param array List of options 
+     *  @param array $list      List of options. See XML_FastCreate:factory()
      *
-     *      'version' :     Set the XML version (default = '1.0')
-     *
-     *      'encoding' :    Set the encoding charset (default = 'UTF-8')
-     *
-     *      'standalone' :  Set the standalone attribute (default = 'no')
-     *
-     *      'doctype'   : DocType string, set manually or use :
-     *          XML_FASTCREATE_DOCTYPE_XHTML_1_1
-     *          XML_FASTCREATE_DOCTYPE_XHTML_1_0_STRICT
-     *          XML_FASTCREATE_DOCTYPE_XHTML_1_0_FRAMESET
-     *          XML_FASTCREATE_DOCTYPE_XHTML_1_0_TRANSITIONAL
-     *          XML_FASTCREATE_DOCTYPE_HTML_4_01_STRICT
-     *          XML_FASTCREATE_DOCTYPE_HTML_4_01_FRAMESET
-     *          XML_FASTCREATE_DOCTYPE_HTML_4_01_TRANSITIONAL
-     *
-     *      'quote' : auto-quote attributes & contents (default = true)
-     *
-     *  @return object XML_Tree
+     *  @return object          An XML_FastCreate_XML_Tree instance
      *  @access public
      */
     function XML_FastCreate_XML_Tree($options = array())
@@ -99,15 +118,17 @@ class XML_FastCreate_XML_Tree extends XML_FastCreate
             $this->_options['quote'] = true;
         }
     }
+    // }}}
+    // {{{ makeXML()
 
     /**
-     * Make a XML tag 
-     * 
-     * @param string Name of the tag
-     * @param array List of attributes
-     * @param mixed (string or XML_Tree) List of contents
+     * Make an XML Tag 
      *
-     * @return object XML_Tree
+     * @param string $tag       Name of the tag
+     * @param array $attribs    List of attributes
+     * @param array $contents   List of contents (strings or sub tags)
+     * 
+     * @return object           The XML into an XML_Tree object
      * @access public
      */
     function makeXML($tag, $attribs = array(), $contents = array())
@@ -139,72 +160,83 @@ class XML_FastCreate_XML_Tree extends XML_FastCreate
         }
         return $this->xml;
     }
+    // }}}
+    // {{{ quote()
 
     /**
      * Encode a string to be include in XML tags.
      *
-     * To use only if the 'quote' is false
+     * To use only if the 'quoteContents' is false
      * Convert :  &      <     >     "       '
      *      To :  &amp;  &lt;  &gt;  &quot;  &apos;
      * 
-     * @param string Content to be quoted
+     * @param string $content   Content to be quoted
      *
-     * @return string The quoted content
-     * @access  public
+     * @return string           The quoted content
+     * @access public
      */
     function quote($content)
     {
         return $this->_quoteEntities($content);
     }
+    // }}}
+    // {{{ noquote()
 
     /**
-     * Don't quote this content.
+     * (Don't quote this content.)
      *
-     * To use only if the 'quote' is true
+     * Not yet possible with XML_Tree
      * 
-     * @param string Content to escape quoting
+     * @param string $content   Content to escape quoting
      *
-     * @return string The content not quoted
-     * @access  public
+     * @return string           The content not quoted
+     * @access public
      */
-    function noquote($content) {
-
-        // Not yet possible with XML_Tree
+    function noquote($content) 
+    {
         return $content;
     }
+    // }}}
+    // {{{ comment()
     
     /**
-     * Make a XML comment
+     * (Make an XML comment)
      *
-     * @param string The content to comment
+     * Not yet possible with XML_Tree
+     *
+     * @param mixed $content    Content to comment
      * 
-     * @return string The content commented
+     * @return object           The XML_Tree content commented
      * @access public
      */
     function comment($content)
     {
-        // Not yet possible with XML_Tree
         return $content;
     }
+    // }}}
+    // {{{ cdata()
 
     /**
-     * Make a CDATA section <![CDATA[ (...) ]]> 
+     * (Make a CDATA section <![CDATA[ (...) ]]>)
      *
-     * @param string The content of the section
+     * Not yet possible with XML_Tree
+     *
+     * @param mixed $content    Content of the section
      * 
-     * @return string The CDATA section
+     * @return object           The XML_Tree cdata content
      * @access public
      */
     function cdata($content)
     {
-        // Not yet possible with XML_Tree
         return $content;
     }
+    // }}}
+    // {{{ getXML()
 
     /**
-     * Return the current XML text.
+     * Return the current XML text 
      *
-     * @return string The current XML text
+     * @return string           The current XML text
      * @access public
      */
     function getXML()
@@ -218,13 +250,15 @@ class XML_FastCreate_XML_Tree extends XML_FastCreate
         }
         return $header.$this->xml->get();
     }
+    // }}}
+    // {{{ importXML()
 
     /**
      * Import XML text to driver data
      *
-     * @param string The XML text
+     * @param string $xml       The XML text
      * 
-     * @return string The XML text
+     * @return object           The XML_Tree content
      * @access public
      */
     function importXML($xml) 
@@ -233,13 +267,15 @@ class XML_FastCreate_XML_Tree extends XML_FastCreate
         $tree->getTreeFromString($xml);
         return $tree->root;
     }
+    // }}}
+    // {{{ exportXML()
     
     /**
-     * Export driver data to XML text 
+     * Export driver data to XML text
      *
-     * @param array List of contents
+     * @param object $xml       The XML_Tree data (from XML_FastCreate_XML_Tree)
      * 
-     * @return string The XML text
+     * @return string           The XML text output
      * @access public
      */
     function exportXML($data = array()) 
@@ -254,7 +290,9 @@ class XML_FastCreate_XML_Tree extends XML_FastCreate
         }
         return $xml;
     }
+    // }}}
 
 }
+// }}}
 
 ?>

@@ -1,9 +1,9 @@
 <?php
-require_once 'XML/FastCreate/Text.php';
+require_once 'XML/FastCreate.php';
 error_reporting(E_ALL);
 
 // Create XML without DTD control (no dependencies)
-$x = new XML_FastCreate_Text(
+$x =& XML_FastCreate::factory('Text',
     array(
         // Use the XHTML 1.0 Strict Doctype
         'doctype'   => XML_FASTCREATE_DOCTYPE_XHTML_1_0_STRICT,

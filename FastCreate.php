@@ -1,134 +1,110 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
-// +----------------------------------------------------------------------+
-// | PHP version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2002 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at                              |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author: Guillaume Lecanu <guillaume.lecanu@online.fr>                |
-// +----------------------------------------------------------------------+
-//
-// $Id$
+
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * FastCreate package advantages :
+ * Master file that defined the base structure for extended classes (drivers).
  *
- * - Easy way to make valid XML :
- *      $x->div(
- *          $x->h1("Example"),
- *          $x->p("Hello"),
- *          $x->p(array('class'=>'example'), "World !")
- *      )
+ * This is the file included by the end-developper. The driver class needed is 
+ * automatically included.
  *
- * - Option to report DTD errors [ Require XML_DTD ]
- * 
- * - Use the driver output of your choice : Text(string) / XML_Tree(object)
- *   [ Require XML_Tree package for 'XML_Tree' driver ]
+ * PHP versions 4 and 5
  *
- * - Translation option to quickly replace tags by anothers. 
- *   ex: Convert your XML to XHTML : 
- *          <news><title> Example </title></news> 
- *      =>  <div class="news"><h1><span> Example </span></h1></div>
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
  *
- * - Indentation option of your XML
- *   [ Require XML_Beautifier package ]
- *
- * - File write option to save your XML output.
- *
- * Simple example to make a valid XHTML page :
- * [code]
- * <?php
- *  require_once 'XML/FastCreate.php';
- * 
- *  $x =& XML_FastCreate::factory('Text');
- * 
- *  $x->html(
- *     $x->head(
- *          $x->title("A simple XHTML page")
- *     ),
- *     $x->body(
- *         $x->div(
- *             $x->h1('Example'),
- *             $x->br(),
- *             $x->a(array('href' => 'http://pear.php.net'), 'PEAR WebSite')
- *         )
- *     )
- *  );
- * 
- *  // Write output
- *  $x->toXML();
- * ?>
- * [/code]
- *
- * KNOW BUGS :
- * - XML_DTD is an alpha version
- *      - Some DTD couln't correctly interpreted (like XHTML 1.1)
- *      - You can use an external program like XMLLINT for check validation
- * - See driver used 
- *
- * @package XML_FastCreate
- * @category XML
+ * @category   XML
+ * @package    XML_FastCreate
+ * @author     Guillaume Lecanu <Guillaume@dev.fr>
+ * @copyright  1997-2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/XML_FastCreate
+ * @see        XML_Tree
  */
 
 require_once 'PEAR.php';
 
-// Errors of XML_FastCreate
+// {{{ constants
+
+/**
+ * Errors of XML_FastCreate
+ */
 define('XML_FASTCREATE_ERROR_NO_FACTORY', 1);
 define('XML_FASTCREATE_ERROR_NO_DRIVER', 2);
 define('XML_FASTCREATE_ERROR_DTD', 3);
 
-// Default filename for 'file' option
+/**
+ * Default filename for 'file' option
+ */
 define('XML_FASTCREATE_FILE', '/tmp/XML_FastCreate.xml');
 
-// Default program for 'exec' option
+/**
+ * Default program for 'exec' option
+ */
 define('XML_FASTCREATE_EXEC',
     '/usr/bin/xmllint --valid --noout /tmp/XML_FastCreate.xml 2>&1');
 
-// DocType : XHTML 1.1
+/**
+ * DocType : XHTML 1.1
+ */
 define('XML_FASTCREATE_DOCTYPE_XHTML_1_1', 
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" '
     .'"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
 
-// DocType : XHTML 1.0 Strict
+/**
+ * DocType : XHTML 1.0 Strict
+ */
 define('XML_FASTCREATE_DOCTYPE_XHTML_1_0_STRICT',
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" '
     .'"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">');
 
-// DocType : XHTML 1.0 Transitional
+/**
+ * DocType : XHTML 1.0 Transitional
+ */
 define('XML_FASTCREATE_DOCTYPE_XHTML_1_0_TRANSITIONAL',
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" '
     .'"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">');
 
-// DocType : XHTML 1.0 Frameset
+/**
+ * DocType : XHTML 1.0 Frameset
+ */
 define('XML_FASTCREATE_DOCTYPE_XHTML_1_0_FRAMESET',
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" '
     .'"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">');
 
-// DocType : XHTML 4.01 Strict
+/**
+ * DocType : XHTML 4.01 Strict
+ */
 define('XML_FASTCREATE_DOCTYPE_HTML_4_01_STRICT',
     '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" '
     .'"http://www.w3.org/TR/html4/strict.dtd">');
 
-// DocType : XHTML 4.01 Transitional
+/**
+ * DocType : XHTML 4.01 Transitional
+ */
 define('XML_FASTCREATE_DOCTYPE_HTML_4_01_Transitional',
     '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" '
     .'"http://www.w3.org/TR/html4/loose.dtd">');
 
-// DocType : XHTML 4.01 Frameset
+/**
+ * DocType : XHTML 4.01 Frameset
+ */
 define('XML_FASTCREATE_DOCTYPE_HTML_4_01_Frameset',
     '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" '
     .'"http://www.w3.org/TR/html4/frameset.dtd">');
 
+// }}}
 
-// Overload class 
+
+
+/**
+ * Make a special class for overloading, depending of the PHP version.
+ * The class XML_FastCreate extend this special class 'XML_FastCreate_Overload'
+ */
 if (isSet($_GLOBALS['XML_FASTCREATE_NO_OVERLOAD']) 
     && $_GLOBALS['XML_FASTCREATE_NO_OVERLOAD']) {
     if (is_array($_GLOBALS['XML_FASTCREATE_NO_OVERLOAD'])) {
@@ -179,8 +155,59 @@ TEXT;
     }
 }
 
-class XML_FastCreate extends XML_FastCreate_Overload {
 
+// {{{ XML_FastCreate
+
+/**
+ * Master class to used the XML_FastCreate application.
+ *
+ * The end-developper need to call the factory() method to make an instance :
+ *      $x =& XML_FastCreate::factory('Text');
+ * Simple example to make a valid XHTML page :
+ * <?php
+ *  require_once 'XML/FastCreate.php';
+ *  $x =& XML_FastCreate::factory('Text');
+ *  $x->html(
+ *     $x->head(
+ *          $x->title("A simple XHTML page")
+ *     ),
+ *     $x->body(
+ *         $x->div(
+ *             $x->h1('Example'),
+ *             $x->br(),
+ *             $x->a(array('href' => 'http://pear.php.net'), 'PEAR WebSite')
+ *         )
+ *     )
+ *  );
+ *  // Write output
+ *  $x->toXML();
+ * ?>
+ * KNOWN BUGS :
+ * - XML_DTD is an alpha version
+ *      - Some DTD couln't correctly interpreted (like XHTML 1.1)
+ *      - You can use an external program like XMLLINT for check validation
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   XML
+ * @package    XML_FastCreate
+ * @author     Guillaume Lecanu <Guillaume@dev.fr>
+ * @copyright  1997-2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/XML_FastCreate
+ * @see        XML_Tree
+ */
+class XML_FastCreate extends XML_FastCreate_Overload 
+{
+    // {{{ properties
+    
     /**
     * DTD Filename for check validity of XML
     *
@@ -269,18 +296,20 @@ class XML_FastCreate extends XML_FastCreate_Overload {
     */
     var $tab;
     
-
+    // }}}
+    // {{{ factory()
+    
     /**
-     * Factory 
-     * 
-     * @param string Driver to use ( Text, XML_Tree .. )
+     * Factory : Make an instance of XML_FastCreate object
      *
-     * @param array List options :
+     * @param string $driver    Driver to use ("Text", "XML_Tree"..)
+     *
+     * @param array $options    Hashtable of options :
      *
      *      'dtd' :         Set the DTD file to check validity
-     *                      (this mode required the XML_DTD package)
+     *                      [required the XML_DTD package]
      *
-     *      'indent' :      Enable / disable indentation
+     *      'indent' :      Enable / disable output indentation
      *
      *      'version' :     Set the XML version (default = '1.0')
      *
@@ -299,30 +328,43 @@ class XML_FastCreate extends XML_FastCreate_Overload {
      *
      *      'quote' :       Auto quote attributes & contents (default = true)
      *
-     *   Specials options :
+     *      'translate' :   Hashtable of tags to translate to anothers :
+     *                      'translate' => array(
+     *                          'title' => array('<h1 class="title"><span>', 
+     *                                          '</span></h1>'),
+     *                          'date'  => array('<span class="date">', 
+     *                                          '</span>'),
+     *                      )
+     *      
+     *      'exec' :        Use an external tool to valid the document
      *
-     *      'expand' :  Return single tag with the syntax : 
-     *                  <tag></tag> rather <tag /> (default = false)
-     *                  ( set to true if you write HTML )
+     *      'file' :        Write the validation output to a file
+     *
+     *      'expand' :      Return single tag with the syntax : 
+     *                      <tag></tag> rather <tag /> (default = false)
+     *                      ( set to true if you write HTML )
      *          
-     *      'apos' :    Quote apostrophe to its entitie &apos; (default = true) 
-     *                  <! WARNING !>
-     *                  For valid XML, you must let this option to true.
-     *                  If you write XHTML, Internet Explorer won't recognize 
-     *                  this entitie, so turn this option to false.
+     *      'apos' :        Quote apostrophe to &apos; (default = true) 
+     *                      <! WARNING !>
+     *                      For valid XML, you must let this option to true.
+     *                      If you write XHTML, Microsoft Internet Explorer 
+     *                      won't recognize this entitie, so you need to turn
+     *                      this option to false.
      *
      *      'singleAttribute' : Accept single attributes (default = false)
-     *            ex :  $x->input(array('type'=>'checkbox', checked=>true))
-     *              =>  <input type="checkbox" checked />
-     *                  <! WARNING !> 
-     *                  This syntax is not valid XML.
-     *                  For valid XML, don't use this option.
-     *            ex :  $x->input(array('type'=>'checkbox', checked=>'checked'))
-     *              =>  <input type="checkbox" checked=>"checked" />
+     *                      ex: $x->input(array('type'=>'checkbox', 
+     *                              checked=>true))
+     *                      =>  <input type="checkbox" checked />
+     *                      <! WARNING !> 
+     *                      This syntax is not valid XML.
+     *                      For valid XML, don't use this option, use this :
+     *                      ex: $x->input(array('type'=>'checkbox', 
+     *                              checked=>'checked'))
+     *                      =>  <input type="checkbox" checked=>"checked" />
      * 
-     * @return object XML_FastCreate_<driver> 
-     *
+     * @return object       An XML_FastCreate_<driver> instance
      * @access public
+     * @static
      */
     function &factory($driver, $options = array())
     {
@@ -336,11 +378,15 @@ class XML_FastCreate extends XML_FastCreate_Overload {
         $obj = new $class($options);
         return $obj;
     }
-
+    // }}}
+    // {{{ XML_FastCreate()
+    
     /**
      * Constructor method. Use the factory() method to make an instance 
      * 
-     * @return XML_FastCreate(object)
+     * @param array $options    Hashtable of options. See factory() for details.
+     *
+     * @return object           An XML_FastCreate instance
      * @access private
      */
     function XML_FastCreate($options = array())
@@ -379,16 +425,16 @@ class XML_FastCreate extends XML_FastCreate_Overload {
                 PEAR_ERROR_DIE);
         }
     }
+    // }}}
+    // {{{ _call()
     
-
     /**
      * Overloading management
      * 
-     * @param string Name of the function overloaded
-     * @param array List of arguments of the function overloaded
+     * @param string $method    Name of the function overloaded
+     * @param array $args       List of arguments of the function overloaded
      * 
      * @return mixed 
-     *
      * @access private
      */
     function _call(&$method, &$args) 
@@ -396,12 +442,14 @@ class XML_FastCreate extends XML_FastCreate_Overload {
         array_unshift($args, $method);
         return call_user_func_array(array(&$this, 'xml'), $args);
     }
+    // }}}
+    // {{{ toXML()
     
     /**
      * Print the current XML to standard output
      *
+     * @return mixed    Return true or a PEAR Error object
      * @access public
-     * @return true or PEAR Error object
      */
     function toXML()
     {
@@ -433,15 +481,17 @@ class XML_FastCreate extends XML_FastCreate_Overload {
 
         return true;
     }
+    // }}}
+    // {{{ isValid()
 
     /**
      * Check if the XML respect the DTD.
      * Require the XML_DTD package
      *
-     * @param string The XML text to check
+     * @param string $xml   The XML text to check
      *
-     * @return boolean True if valid
-     * @access  public
+     * @return boolean      Return true if valid
+     * @access public
      */
     function isValid(&$xml)
     {
@@ -460,6 +510,8 @@ class XML_FastCreate extends XML_FastCreate_Overload {
         }
         return true;
     }
+    // }}}
+    // {{{ _quoteEntities()
 
     /**
      * Replace XML special characters by their entities
@@ -467,22 +519,24 @@ class XML_FastCreate extends XML_FastCreate_Overload {
      * Convert :  &      <     >     "       '
      *      To :  &amp;  &lt;  &gt;  &quot;  &apos;
      * 
-     * @param string Content to be quoted
+     * @param string $content   Content to be quoted
      *
-     * @return string The quoted content
-     * @access  private
+     * @return string           The quoted content
+     * @access private
      */
     function _quoteEntities($content)
     {
         return str_replace($this->_entities, $this->_replaces, $content);
     }
+    // }}}
+    // {{{ indentXML()
  
     /**
-     * Indent a XML text 
+     * Indent an XML text 
      *
-     * @param string $xml Text
+     * @param string $xml   XML text to indent
      * 
-     * @return string The XML text indented
+     * @return string       The XML text indented
      * @acess public
      */
     function indentXML($xml)
@@ -492,17 +546,19 @@ class XML_FastCreate extends XML_FastCreate_Overload {
         $out =& $fmt->formatString($xml);
         return $out;
     }
+    // }}}
+    // {{{ xml()
     
     /** 
-     *  Make a XML tag.
+     *  Make an XML tag.
      *
      *  Accept all forms of parameters.
      *
-     * @param string Name of the tag
-     * @param mixed (possible array for attributes)
-     * @param mixed (all types for sub tags)
+     * @param string $tag       Name of the tag
+     * @param array $args       Optional list for attributes
+     * @param array $contents   Optional list of contents (strings or sub tags)
      *
-     * @return mixed See the driver specification
+     * @return mixed            See the driver specification
      * @access public
      */
     function xml($tag) 
@@ -534,24 +590,31 @@ class XML_FastCreate extends XML_FastCreate_Overload {
         }
         return $this->makeXML($tag, $attribs, $args);
     }
+    // }}}
  
 
     // -------------------------------------------------------- \\
     // --- Abstract methods to be implemented by the driver --- \\
     // -------------------------------------------------------- \\
  
+    // {{{ makeXML()
+    
     /**
-     * Make a XML Tag 
+     * Make an XML Tag 
      *
-     * @param string Name of the tag
-     * @param array List of attributes
-     * @param array List of contents (strings or sub tags)
+     * @param string $tag       Name of the tag
+     * @param array $attribs    List of attributes
+     * @param array $contents   List of contents (strings or sub tags)
      * 
-     * @return mixed See the driver specifications
-     * @access private
+     * @return mixed            See the driver specifications
+     * @access public
      */
-    function makeXML($tag, $attribs = array(), $contents = array()) {}
-
+    function makeXML($tag, $attribs = array(), $contents = array()) 
+    {
+    }
+    // }}}
+    // {{{ quote()
+    
     /**
      * Encode a string to be include in XML tags.
      *
@@ -559,74 +622,101 @@ class XML_FastCreate extends XML_FastCreate_Overload {
      * Convert :  &      <     >     "       '
      *      To :  &amp;  &lt;  &gt;  &quot;  &apos;
      * 
-     * @param string Content to be quoted
+     * @param string $content   Content to be quoted
      *
-     * @return string The quoted content
-     * @access  public
+     * @return string           The quoted content
+     * @access public
      */
-    function quote($content) {}
+    function quote($content) 
+    {
+    }
+    // }}}
+    // {{{ noquote()
 
     /**
      * Don't quote this content.
      *
      * To use only if the 'quoteContents' is true
      * 
-     * @param string Content to escape quoting
+     * @param string $content   Content to escape quoting
      *
-     * @return string The content not quoted
-     * @access  public
-     */
-    function noquote($content) {}
-
-    /**
-     * Make a XML comment
-     *
-     * @param mixed Content to comment
-     * 
-     * @return mixed See the driver specifications
+     * @return string           The content not quoted
      * @access public
      */
-    function comment($content) {}
+    function noquote($content) 
+    {
+    }
+    // }}}
+    // {{{ comment()
+
+    /**
+     * Make an XML comment
+     *
+     * @param mixed $content    Content to comment
+     * 
+     * @return mixed            See the driver specifications
+     * @access public
+     */
+    function comment($content) 
+    {
+    }
+    // }}}
+    // {{{ cdata()
 
     /**
      * Make a CDATA section <![CDATA[ (...) ]]>
      *
-     * @param mixed Content of the section
+     * @param mixed $content    Content of the section
      * 
-     * @return mixed See the driver specifications
+     * @return mixed            See the driver specifications
      * @access public
      */
-    function cdata($content) {}
+    function cdata($content) 
+    {
+    }
+    // }}}
+    // {{{ getXML()
 
     /**
      * Return the current XML text 
      *
-     * @return string The current XML text
+     * @return string           The current XML text
      * @access public
      */
-    function getXML() {}
+    function getXML() 
+    {
+    }
+    // }}}
+    // {{{ importXML()
 
     /**
      * Import XML text to driver data
      *
-     * @param string The XML text
+     * @param mixed $xml        The XML text
      * 
-     * @return mixed See the driver specifications
+     * @return mixed            See the driver specifications
      * @access public
      */
-    function importXML($xml) {}
+    function importXML($xml) 
+    {
+    }
+    // }}}
+    // {{{ exportXML()
 
     /**
      * Export driver data to XML text
      *
-     * @param mixed The XML data driver 
+     * @param mixed $xml        The XML data driver 
      * 
-     * @return string XML text
+     * @return string           The XML text
      * @access public
      */
-    function exportXML($xml) {}
+    function exportXML($xml) 
+    {
+    }
+    // }}}
 
 }
-
+// }}}
 
 ?>
