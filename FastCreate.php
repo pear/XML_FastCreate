@@ -164,6 +164,7 @@ TEXT;
  * The end-developper need to call the factory() method to make an instance :
  *      $x =& XML_FastCreate::factory('Text');
  * Simple example to make a valid XHTML page :
+ * <code>
  * <?php
  *  require_once 'XML/FastCreate.php';
  *  $x =& XML_FastCreate::factory('Text');
@@ -182,6 +183,7 @@ TEXT;
  *  // Write output
  *  $x->toXML();
  * ?>
+ * </code>
  * KNOWN BUGS :
  * - XML_DTD is an alpha version
  *      - Some DTD couln't correctly interpreted (like XHTML 1.1)
