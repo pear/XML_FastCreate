@@ -154,9 +154,7 @@ class XML_FastCreate_XML_Tree extends XML_FastCreate
      */
     function quote($content)
     {
-        $content = str_replace(array('&', '<', '>', '"', "'"),
-                array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;'), $content);
-        return $content;
+        return $this->_quoteEntities($content);
     }
 
     /**

@@ -231,6 +231,22 @@ class XML_FastCreate extends XML_FastCreate_Overload {
     var $_translate;
     
     /*
+    * List of entities to convert
+    *
+    * @var      array
+    * @access   private
+    */
+    var $_entities = array('&', '<', '>', '"', "'");
+    
+    /*
+    * List of replacement of entities
+    *
+    * @var      array
+    * @access   private
+    */
+    var $_replaces = array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;');
+        
+    /*
     * String representation of the carriage return
     *
     * @var      string
@@ -251,14 +267,51 @@ class XML_FastCreate extends XML_FastCreate_Overload {
      * Factory 
      * 
      * @param string Driver to use ( Text, XML_Tree .. )
+     *
      * @param array List options :
      *
-     *  'dtd'       : Set the DTD file to check validity
-     *                (this mode required the XML_DTD package)
+     *      'dtd' :         Set the DTD file to check validity
+     *                      (this mode required the XML_DTD package)
      *
-     *  'indent'   : Enable / disable indentation
+     *      'indent' :      Enable / disable indentation
      *
-     *  (see also driver options)
+     *      'version' :     Set the XML version (default = '1.0')
+     *
+     *      'encoding' :    Set the encoding charset (default = 'UTF-8')
+     *
+     *      'standalone' :  Set the standalone attribute (default = 'no')
+     *
+     *      'doctype'   :   DocType string, set manually or use :
+     *          XML_FASTCREATE_DOCTYPE_XHTML_1_1
+     *          XML_FASTCREATE_DOCTYPE_XHTML_1_0_STRICT
+     *          XML_FASTCREATE_DOCTYPE_XHTML_1_0_FRAMESET
+     *          XML_FASTCREATE_DOCTYPE_XHTML_1_0_TRANSITIONAL
+     *          XML_FASTCREATE_DOCTYPE_HTML_4_01_STRICT
+     *          XML_FASTCREATE_DOCTYPE_HTML_4_01_FRAMESET
+     *          XML_FASTCREATE_DOCTYPE_HTML_4_01_TRANSITIONAL
+     *
+     *      'quote' :       Auto quote attributes & contents (default = true)
+     *
+     *   Specials options :
+     *
+     *      'expand' :  Return single tag with the syntax : 
+     *                  <tag></tag> rather <tag /> (default = false)
+     *                  ( set to true if you write HTML )
+     *          
+     *      'apos' :    Quote apostrophe to its entitie &apos; (default = true) 
+     *                  <! WARNING !>
+     *                  For valid XML, you must let this option to true.
+     *                  If you write XHTML, Internet Explorer won't recognize 
+     *                  this entitie, so turn this option to false.
+     *
+     *      'singleAttribute' : Accept single attributes (default = false)
+     *            ex :  $x->input(array('type'=>'checkbox', checked=>true))
+     *              =>  <input type="checkbox" checked />
+     *                  <! WARNING !> 
+     *                  This syntax is not valid XML.
+     *                  For valid XML, don't use this option.
+     *            ex :  $x->input(array('type'=>'checkbox', checked=>'checked'))
+     *              =>  <input type="checkbox" checked=>"checked" />
      * 
      * @return object XML_FastCreate_<driver> 
      *
@@ -280,12 +333,8 @@ class XML_FastCreate extends XML_FastCreate_Overload {
     /**
      * Constructor method. Use the factory() method to make an instance 
      * 
-     * @param array Hashtable containing optional settings :
-     *
-     *  'output'    : Set the output format : 'XML' text or 'XML_Tree' object
-     *
      * @return XML_FastCreate(object)
-     * @access public
+     * @access private
      */
     function XML_FastCreate($options = array())
     {
@@ -306,6 +355,13 @@ class XML_FastCreate extends XML_FastCreate_Overload {
             }
             if ($this->_dtd) {
                 include_once 'XML/DTD/XmlValidator.php';
+            }
+            if (!isSet($options['apos'])) {
+                $options['apos'] = true;
+            }
+            if (!$options['apos']) {
+                array_pop($this->_entities);
+                array_pop($this->_replaces);
             }
             $this->cr  = chr(13).chr(10);
             $this->tab = chr(9);
@@ -396,6 +452,22 @@ class XML_FastCreate extends XML_FastCreate_Overload {
             return PEAR::raiseError($errors, XML_FASTCREATE_ERROR_DTD);
         }
         return true;
+    }
+
+    /**
+     * Replace XML special characters by their entities
+     *
+     * Convert :  &      <     >     "       '
+     *      To :  &amp;  &lt;  &gt;  &quot;  &apos;
+     * 
+     * @param string Content to be quoted
+     *
+     * @return string The quoted content
+     * @access  private
+     */
+    function _quoteEntities($content)
+    {
+        return str_replace($this->_entities, $this->_replaces, $content);
     }
  
     /**

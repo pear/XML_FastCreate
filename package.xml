@@ -89,7 +89,7 @@
         <dep type="pkg" rel="ge" version="2.0b2" optional="yes">XML_Tree</dep>
         <dep type="pkg" rel="ge" version="0.4.1" optional="yes">XML_DTD</dep>
         <dep type="pkg" rel="ge" version="1.1" optional="yes">XML_Beautifier</dep>
-        <dep type="pkg" rel="ge" version="2.1.12" optional="yes">XML_HTMLSax</dep>
+        <dep type="pkg" rel="ge" version="2.1.2" optional="yes">XML_HTMLSax</dep>
     </deps>
   </release>
 </package>

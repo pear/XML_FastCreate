@@ -69,19 +69,26 @@ class XML_FastCreate_Text extends XML_FastCreate
      *
      *      'quote' : auto quote attributes & contents (default = true)
      *
-     *      'expand' : Return single tag with the syntax : 
-     *                  <tag></tag> rather <tag />
-     *                 ( set to true if you write HTML )
+     *   Specials options :
+     *
+     *      'expand' :  Return single tag with the syntax : 
+     *                  <tag></tag> rather <tag /> (default = false)
+     *                  ( set to true if you write HTML )
      *          
-     *      'singleAttribute' : Set to true to accept single attribute,
-     *            Set the value of attribute to true
-     *            ex: $x->input(array('type'=>'checkbox', checked=>true))
-     *              <input type="checkbox" checked />
-     *      <! WARNING !> 
-     *            This syntax is not valid XML.
-     *            For valid XML, don't use this option.
-     *            ex: $x->input(array('type'=>'checkbox', checked=>'checked'))
-     *              <input type="checkbox" checked=>"checked" />
+     *      'apos' :    Quote apostrophe to its entitie &apos; (default = true) 
+     *                  <! WARNING !>
+     *                  For valid XML, you must let this option to true.
+     *                  If you write XHTML, Internet Explorer won't recognize 
+     *                  this entitie, so turn this option to false.
+     *
+     *      'singleAttribute' : Accept single attributes (default = false)
+     *            ex :  $x->input(array('type'=>'checkbox', checked=>true))
+     *              =>  <input type="checkbox" checked />
+     *                  <! WARNING !> 
+     *                  This syntax is not valid XML.
+     *                  For valid XML, don't use this option.
+     *            ex :  $x->input(array('type'=>'checkbox', checked=>'checked'))
+     *              =>  <input type="checkbox" checked=>"checked" />
      *
      *  @return object XML_FastCreate_Text
      *  @access public
@@ -315,23 +322,6 @@ class XML_FastCreate_Text extends XML_FastCreate
         return str_replace(array('<_>', '</_>'), array('', ''), $str);
     }
 
-    /**
-     * Replace XML special characters by their entities
-     *
-     * Convert :  &      <     >     "       '
-     *      To :  &amp;  &lt;  &gt;  &quot;  &apos;
-     * 
-     * @param string Content to be quoted
-     *
-     * @return string The quoted content
-     * @access  private
-     */
-    function _quoteEntities($content)
-    {
-        $content = str_replace(array('&', '<', '>', '"', "'"),
-                array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;'), $content);
-        return $content;
-    }
 
     /** 
      *  Define this content 'quoted'

@@ -17,9 +17,9 @@ error_reporting(E_ALL);
 require_once('XML/XML_HTMLSax.php');
 
 $header = "
-require_once 'XML/FastCreate.php';
+require_once 'XML/FastCreate/Text.php';
 
-".'$x'." =& XML_FastCreate::factory('Text',
+".'$x'." =& XML_FastCreate_Text(
     array(
         'doctype'   => XML_FASTCREATE_DOCTYPE_XHTML_1_0_STRICT,
         'quote'     => false
