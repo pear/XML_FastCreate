@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id -->
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>XML_FastCreate</name>
+  <summary>Fast creation of valid XML with DTD control.</summary>
+  <description>
+  - Easy way to make valid XML :
+       $x->div(
+           $x->h1("Example"),
+           $x->p("Hello"),
+           $x->p(array('class'=>'example'), "World !")
+       )
+       
+  - Option to report DTD errors in your XML :
+    Use internal tool or external program [ Require XML_DTD package ]
+
+  - Use output driver of your choice :
+    Text : return string
+    XML_Tree : return XML_Tree object [ Require XML_Tree package ]
+
+  - Translate option to quickly transform tags by anothers :
+     ex: Convert your XML to XHTML : 
+            &lt;news&gt;&lt;title&gt; Example &lt;/title&gt;&lt;/news&gt;
+        =>  &lt;div class="news"&gt;&lt;h1&gt;&lt;span&gt; Example &lt;/span&gt;&lt;/h1&gt;&lt;/div&gt;
+
+  - Include a PHP program to quickly transform HTML to FastCreate syntax.
+    [ Require XML_HTMLSax package ]
+
+  - See examples for more informations :
+    http://lya.no-ip.com/pear/XML_FastCreate/tests/
+  </description>
+  <license>PHP License</license>
+  <maintainers>
+    <maintainer>
+      <user>neokod</user>
+      <role>lead</role>
+      <name>Guillaume Lecanu</name>
+      <email>Guillaume.Lecanu@Online.fr</email>
+    </maintainer>
+  </maintainers>
+  
+  <release>
+      <version>0.9</version>
+      <state>beta</state>
+      <date>2004-04-18</date>
+      <notes>
+      This is the first version of XML_FastCreate.
+      </notes>
+    <filelist>
+      <dir name="/" baseinstalldir="/XML">
+        <file role="php">FastCreate.php</file>
+        <dir name="FastCreate">
+          <file role="php">Text.php</file>
+          <file role="php">XML_Tree.php</file>
+            <dir name="tags">
+              <file role="php">HTML_4_01_STRICT.php</file>
+              <file role="php">HTML_4_01_TRANSITIONAL.php</file>
+              <file role="php">XHTML_1_0_STRICT.php</file>
+              <file role="php">XHTML_1_0_TRANSITIONAL.php</file>
+            </dir>
+        </dir>
+        <dir name="tests">
+          <file role="test">sample.php</file>
+          <file role="test">example1.php</file>
+          <file role="test">example2.php</file>
+          <file role="test">example3.php</file>
+          <file role="test">example4.php</file>
+          <file role="test">example5.php</file>
+          <file role="test">example.css</file>
+        </dir>
+        <dir name="script">
+          <file role="script">HTML2FC.php</file>
+          <file role="test">pear.php.net.html</file>
+        </dir>
+        <dir name="dtd">
+          <file role="data">html_4_01_frameset.dtd</file>
+          <file role="data">html_4_01_transitional.dtd</file>
+          <file role="data">html_4_01_strict.dtd</file>
+          <file role="data">xhtml_1_0_frameset.dtd</file>
+          <file role="data">xhtml_1_0_transitional.dtd</file>
+          <file role="data">xhtml_1_0_strict.dtd</file>
+          <file role="data">xhtml_1_1.dtd</file>
+        </dir>
+      </dir>
+    </filelist>
+    <deps>
+        <dep type="php" rel="ge" version="4.3.2" />
+        <dep type="pkg" rel="ge" version="2.0b2" optional="yes">XML_Tree</dep>
+        <dep type="pkg" rel="ge" version="0.4.1" optional="yes">XML_DTD</dep>
+        <dep type="pkg" rel="ge" version="1.1" optional="yes">XML_Beautifier</dep>
+        <dep type="pkg" rel="ge" version="2.1.12" optional="yes">XML_HTMLSax</dep>
+    </deps>
+  </release>
+</package>
+
