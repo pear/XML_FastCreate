@@ -134,12 +134,13 @@ if (isSet($_GLOBALS['XML_FASTCREATE_NO_OVERLOAD'])
     if (is_array($_GLOBALS['XML_FASTCREATE_NO_OVERLOAD'])) {
         $class = 'class XML_FastCreate_Overload extends PEAR {';
         foreach ($_GLOBALS['XML_FASTCREATE_NO_OVERLOAD'] as $tag) {
-            $class .= "
+            $class .= <<<TEXT
             function $tag() { 
                 \$args = func_get_args();
                 array_unshift(\$args, '$tag');
                 return call_user_func_array(array(&\$this, 'xml'), \$args);
-            }";
+            }
+TEXT;
         }
         $class .= ' }';
         eval($class);
@@ -148,27 +149,33 @@ if (isSet($_GLOBALS['XML_FASTCREATE_NO_OVERLOAD'])
     }
 } else {
     if (phpversion() < 5) {
+        $class = <<<TEXT
         class XML_FastCreate_Overload extends PEAR {
-            function __call($method, $args, &$return)
+            function __call(\$method, \$args, &\$return)
             {
-                if ($method != __CLASS__) {
-                    $return = $this->_call($method, $args);
+                if (\$method != __CLASS__) {
+                    \$return = \$this->_call(\$method, \$args);
                 }
                 return true;
             }
         }
+TEXT;
+        eval($class);
         if (function_exists('overload')) {
             overload('XML_FastCreate_Overload');
         }
     } else {
+        $class = <<<TEXT
         class XML_FastCreate_Overload extends PEAR {
-            function __call($method, $args) 
+            function __call(\$method, \$args) 
             {
-                if ($method != __CLASS__) {
-                    return $this->_call($method, $args);
+                if (\$method != __CLASS__) {
+                    return \$this->_call(\$method, \$args);
                 }
             }
         }
+TEXT;
+        eval($class);
     }
 }
 
