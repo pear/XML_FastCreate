@@ -28,7 +28,7 @@
     [ Require XML_HTMLSax package ]
 
   - See examples for more informations :
-    http://lya.no-ip.com/pear/XML_FastCreate/tests/
+    http://lya.fr/pear/XML_FastCreate/tests/
   </description>
   <license>PHP License</license>
   <maintainers>
@@ -36,51 +36,51 @@
       <user>neokod</user>
       <role>lead</role>
       <name>Guillaume Lecanu</name>
-      <email>Guillaume.Lecanu@Online.fr</email>
+      <email>Guillaume@lya.fr</email>
     </maintainer>
   </maintainers>
   
   <release>
-      <version>0.9</version>
-      <state>beta</state>
-      <date>2004-04-18</date>
+      <version>1.0.0</version>
+      <state>stable</state>
+      <date>2005-03-02</date>
       <notes>
-      This is the first version of XML_FastCreate.
+      BugFix PHP5 ; scripts/example added ; stable release.
       </notes>
     <filelist>
-      <dir name="/" baseinstalldir="/XML">
-        <file role="php">FastCreate.php</file>
-        <dir name="FastCreate">
-          <file role="php">Text.php</file>
-          <file role="php">XML_Tree.php</file>
-            <dir name="tags">
-              <file role="php">HTML_4_01_STRICT.php</file>
-              <file role="php">HTML_4_01_TRANSITIONAL.php</file>
-              <file role="php">XHTML_1_0_STRICT.php</file>
-              <file role="php">XHTML_1_0_TRANSITIONAL.php</file>
+      <dir name="/" baseinstalldir="/XML" role="php">
+        <file>FastCreate.php</file>
+        <dir name="FastCreate" role="php">
+          <file>Text.php</file>
+          <file>XML_Tree.php</file>
+            <dir name="tags" role="php">
+              <file>HTML_4_01_STRICT.php</file>
+              <file>HTML_4_01_TRANSITIONAL.php</file>
+              <file>XHTML_1_0_STRICT.php</file>
+              <file>XHTML_1_0_TRANSITIONAL.php</file>
             </dir>
         </dir>
-        <dir name="tests">
-          <file role="test">sample.php</file>
-          <file role="test">example1.php</file>
-          <file role="test">example2.php</file>
-          <file role="test">example3.php</file>
-          <file role="test">example4.php</file>
-          <file role="test">example5.php</file>
-          <file role="test">example.css</file>
+        <dir name="tests" role="php">
+          <file>sample.php</file>
+          <file>example1.php</file>
+          <file>example2.php</file>
+          <file>example3.php</file>
+          <file>example4.php</file>
+          <file>example5.php</file>
+          <file>example.css</file>
         </dir>
-        <dir name="script">
-          <file role="script">HTML2FC.php</file>
-          <file role="test">pear.php.net.html</file>
+        <dir name="script" role="php">
+          <file>HTML2FC.php</file>
+          <file>pear.php.net.html</file>
         </dir>
-        <dir name="dtd">
-          <file role="data">html_4_01_frameset.dtd</file>
-          <file role="data">html_4_01_transitional.dtd</file>
-          <file role="data">html_4_01_strict.dtd</file>
-          <file role="data">xhtml_1_0_frameset.dtd</file>
-          <file role="data">xhtml_1_0_transitional.dtd</file>
-          <file role="data">xhtml_1_0_strict.dtd</file>
-          <file role="data">xhtml_1_1.dtd</file>
+        <dir name="dtd" role="php">
+          <file>html_4_01_frameset.dtd</file>
+          <file>html_4_01_transitional.dtd</file>
+          <file>html_4_01_strict.dtd</file>
+          <file>xhtml_1_0_frameset.dtd</file>
+          <file>xhtml_1_0_transitional.dtd</file>
+          <file>xhtml_1_0_strict.dtd</file>
+          <file>xhtml_1_1.dtd</file>
         </dir>
       </dir>
     </filelist>
