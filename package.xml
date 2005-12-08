@@ -81,7 +81,7 @@
         </dir>
       </dir>
       <dir name="script" baseinstalldir="/" role="php">
-        <file>HTML2FC.php</file>
+        <file>HTML2XFC.php</file>
       </dir>
     </filelist>
     <deps>

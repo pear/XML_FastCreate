@@ -7,11 +7,11 @@
  * Convertion tool to convert a HTML page to the XML_FastCreate syntax.
  *
  * Syntaxe : 
- *     HTML2FC <source_file.html> [<destination_file.php>]
+ *     HTML2XFC <source_file.html> [<destination_file.php>]
  * 
  * Or by selecting text with your prefered editor. 
  * With VIM, add this line into your ~/.vimrc :
- *      map ,fc :!/usr/local/bin/HTML2FC.php<CR>
+ *      map ,fc :!HTML2XFC.php<CR>
  * Select your HTML text and call the script with ,fc
  *
  * PHP versions 4 and 5
@@ -51,7 +51,7 @@ $x->toXML();
 
 
 // Define a customer handler class
-class MyHandler {
+class XML_FastCreate_MyHandler {
 
  var $output = '';
  var $tab = 0;
@@ -176,7 +176,7 @@ if (isSet($_SERVER['argv'][1])) {
 
 
 // Instantiate the handler
-$handler=new MyHandler;
+$handler=new XML_FastCreate_MyHandler;
 
 // Instantiate the parser
 $parser=& new XML_HTMLSax;
@@ -184,7 +184,7 @@ $parser=& new XML_HTMLSax;
 // Register the handler with the parser
 $parser->set_object($handler);
 
-// Set the callback handlers (MyHandler methods)
+// Set the callback handlers (XML_FastCreate_MyHandler methods)
 $parser->set_element_handler('openHandler','closeHandler');
 $parser->set_data_handler('dataHandler');
 $parser->set_escape_handler('escapeHandler');
