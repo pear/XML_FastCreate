@@ -45,11 +45,11 @@ $x->html(
                 
             $x->p("But you can disable overloading and keep the same syntax."),
             $x->p(" You must define the list of tags before include() into "
-                ."\$_GLOBALS['XML_FASTCREATE_NO_OVERLOAD']  :"),
+                ."\$GLOBAALS['XML_FASTCREATE_NO_OVERLOAD']  :"),
                 
             $x->p(array('class'=>'code'), 
                 $x->noquote(nl2br(
-                    "\$_GLOBALS['XML_FASTCREATE_NO_OVERLOAD'] = array(  
+                    "\$GLOBAALS['XML_FASTCREATE_NO_OVERLOAD'] = array(  
                         'html', 'head', 'title', 'body', 'style', 'div',  
                         'h1', 'h3', 'p', 'a', 'br', 'hr', 'img', 'pre'
                     );  

@@ -26,7 +26,7 @@
  * @link       http://pear.php.net/package/XML_FastCreate
  */
 
-$_GLOBALS['XML_FASTCREATE_NO_OVERLOAD'] = array(
+$GLOBAALS['XML_FASTCREATE_NO_OVERLOAD'] = array(
     'basefont',
     'font',
     'center',

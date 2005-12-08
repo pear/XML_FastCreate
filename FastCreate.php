@@ -105,11 +105,11 @@ define('XML_FASTCREATE_DOCTYPE_HTML_4_01_Frameset',
  * Make a special class for overloading, depending of the PHP version.
  * The class XML_FastCreate extend this special class 'XML_FastCreate_Overload'
  */
-if (isSet($_GLOBALS['XML_FASTCREATE_NO_OVERLOAD']) 
-    && $_GLOBALS['XML_FASTCREATE_NO_OVERLOAD']) {
-    if (is_array($_GLOBALS['XML_FASTCREATE_NO_OVERLOAD'])) {
+if (isSet($GLOBAALS['XML_FASTCREATE_NO_OVERLOAD']) 
+    && $GLOBAALS['XML_FASTCREATE_NO_OVERLOAD']) {
+    if (is_array($GLOBAALS['XML_FASTCREATE_NO_OVERLOAD'])) {
         $class = 'class XML_FastCreate_Overload extends PEAR {';
-        foreach ($_GLOBALS['XML_FASTCREATE_NO_OVERLOAD'] as $tag) {
+        foreach ($GLOBAALS['XML_FASTCREATE_NO_OVERLOAD'] as $tag) {
             $class .= <<<TEXT
             function $tag() { 
                 \$args = func_get_args();
