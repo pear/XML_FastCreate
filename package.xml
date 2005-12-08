@@ -41,11 +41,11 @@
   </maintainers>
   
   <release>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
       <state>stable</state>
-      <date>2005-03-02</date>
+      <date>2005-12-08</date>
       <notes>
-      BugFix PHP5 ; scripts/example added ; stable release.
+      BugFixes
       </notes>
     <filelist>
       <dir name="/" baseinstalldir="/XML" role="php">
@@ -68,9 +68,6 @@
           <file>example4.php</file>
           <file>example5.php</file>
           <file>example.css</file>
-        </dir>
-        <dir name="script" role="php">
-          <file>HTML2FC.php</file>
           <file>pear.php.net.html</file>
         </dir>
         <dir name="dtd" role="php">
@@ -82,6 +79,9 @@
           <file>xhtml_1_0_strict.dtd</file>
           <file>xhtml_1_1.dtd</file>
         </dir>
+      </dir>
+      <dir name="script" baseinstalldir="/" role="php">
+        <file>HTML2FC.php</file>
       </dir>
     </filelist>
     <deps>
