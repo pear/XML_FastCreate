@@ -165,7 +165,7 @@ class XML_FastCreate_Text extends XML_FastCreate
                 $element = "<$tag$attTxt />";
             }
         }
-        $this->xml = $this->cr.$this->_quoted($element);
+        $this->xml = $this->_quoted($element);
         return $this->xml;
     }
     // }}}
@@ -196,9 +196,7 @@ class XML_FastCreate_Text extends XML_FastCreate
      */
     function cdata($content)
     {
-        return  $this->_quoted('/*<![CDATA[*/'
-                .$this->cr.$content
-                .$this->cr.'/*]]>*/');
+        return  $this->_quoted("/*<![CDATA[*/\n{$content}\n/*]]>*/");
     }
     // }}}
     // {{{ getXML()
@@ -216,7 +214,7 @@ class XML_FastCreate_Text extends XML_FastCreate
                 .' encoding="'.$this->_options['encoding'].'"'
                 .' standalone="'.$this->_options['standalone'].'" ?>';
         if ($this->_options['doctype']) {
-            $header .= "\n".$this->_options['doctype'];
+            $header .= "\n".$this->_options['doctype']."\n";
         }
         return $header.$this->_unquote($this->xml);
     }
@@ -252,7 +250,7 @@ class XML_FastCreate_Text extends XML_FastCreate
         foreach ($data as $str) {
             $xml .= $str;
         }
-        return $this->cr.$xml.$this->cr;
+        return $xml;
     }
     // }}}
     // {{{ quote()

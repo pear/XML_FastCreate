@@ -282,22 +282,6 @@ class XML_FastCreate extends XML_FastCreate_Overload
     */
     var $_replaces = array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;');
         
-    /*
-    * String representation of the carriage return
-    *
-    * @var      string
-    * @access   public
-    */
-    var $cr;
-    
-    /*
-    * String representation of a tabulation
-    *
-    * @var      string
-    * @access   public
-    */
-    var $tab;
-    
     // }}}
     // {{{ factory()
     
@@ -418,8 +402,6 @@ class XML_FastCreate extends XML_FastCreate_Overload
                 array_pop($this->_entities);
                 array_pop($this->_replaces);
             }
-            $this->cr  = chr(13).chr(10);
-            $this->tab = chr(9);
 
         } else {
             PEAR::raiseError("Use the factory() method please.",

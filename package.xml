@@ -29,6 +29,9 @@
 
   - See examples for more informations :
     http://lya.fr/pear/XML_FastCreate/tests/
+
+  - French Tutorial :
+    http://wiki.lya.fr/doku.php?id=pear_xml_fastcreate
   </description>
   <license>PHP License</license>
   <maintainers>
@@ -41,11 +44,11 @@
   </maintainers>
   
   <release>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
       <state>stable</state>
       <date>2005-12-08</date>
       <notes>
-      BugFixes
+      All XML indentations removed
       </notes>
     <filelist>
       <dir name="/" baseinstalldir="/XML" role="php">
