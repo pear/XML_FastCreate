@@ -44,11 +44,11 @@
   </maintainers>
   
   <release>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
       <state>stable</state>
-      <date>2005-12-08</date>
+      <date>2005-12-14</date>
       <notes>
-      All XML indentations removed
+      Bugfixes quote()
       </notes>
     <filelist>
       <dir name="/" baseinstalldir="/XML" role="php">
