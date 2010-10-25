@@ -1,99 +1,123 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!-- $Id -->
-<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<package version="1.0">
-  <name>XML_FastCreate</name>
-  <summary>Fast creation of valid XML with DTD control.</summary>
-  <description>
-  - Easy way to make valid XML :
-       $x->div(
-           $x->h1("Example"),
-           $x->p("Hello"),
-           $x->p(array('class'=>'example'), "World !")
-       )
-       
-  - Option to report DTD errors in your XML :
-    Use internal tool or external program [ Require XML_DTD package ]
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>XML_FastCreate</name>
+ <channel>pear.php.net</channel>
+ <summary>Fast creation of valid XML with DTD control.</summary>
+ <description>- Easy way to make valid XML :
+     $x-&gt;div(
+         $x-&gt;h1(&quot;Example&quot;),
+         $x-&gt;p(&quot;Hello&quot;),
+         $x-&gt;p(array(&apos;class&apos;=&gt;&apos;example&apos;), &quot;World !&quot;)
+     )
+     
+- Option to report DTD errors in your XML :
+  Use internal tool or external program [ Require XML_DTD package ]
+- Use output driver of your choice :
+  Text : return string
+  XML_Tree : return XML_Tree object [ Require XML_Tree package ]
+- Translate option to quickly transform tags by anothers :
+   ex: Convert your XML to XHTML : 
+          &lt;news&gt;&lt;title&gt; Example &lt;/title&gt;&lt;/news&gt;
+      =&gt;  &lt;div class=&quot;news&quot;&gt;&lt;h1&gt;&lt;span&gt; Example &lt;/span&gt;&lt;/h1&gt;&lt;/div&gt;
+- Include a PHP program to quickly transform HTML to FastCreate syntax.
+  [ Require XML_HTMLSax package ]
+- See examples for more informations :
+  http://lya.fr/pear/XML_FastCreate/tests/
+- French Tutorial :
+  http://wiki.lya.fr/doku.php?id=pear_xml_fastcreate
 
-  - Use output driver of your choice :
-    Text : return string
-    XML_Tree : return XML_Tree object [ Require XML_Tree package ]
-
-  - Translate option to quickly transform tags by anothers :
-     ex: Convert your XML to XHTML : 
-            &lt;news&gt;&lt;title&gt; Example &lt;/title&gt;&lt;/news&gt;
-        =>  &lt;div class="news"&gt;&lt;h1&gt;&lt;span&gt; Example &lt;/span&gt;&lt;/h1&gt;&lt;/div&gt;
-
-  - Include a PHP program to quickly transform HTML to FastCreate syntax.
-    [ Require XML_HTMLSax package ]
-
-  - See examples for more informations :
-    http://lya.fr/pear/XML_FastCreate/tests/
-
-  - French Tutorial :
-    http://wiki.lya.fr/doku.php?id=pear_xml_fastcreate
-  </description>
-  <license>PHP License</license>
-  <maintainers>
-    <maintainer>
-      <user>neokod</user>
-      <role>lead</role>
-      <name>Guillaume Lecanu</name>
-      <email>Guillaume@lya.fr</email>
-    </maintainer>
-  </maintainers>
-  
-  <release>
-      <version>1.0.3</version>
-      <state>stable</state>
-      <date>2005-12-14</date>
-      <notes>
-      Bugfixes quote()
-      </notes>
-    <filelist>
-      <dir name="/" baseinstalldir="/XML" role="php">
-        <file>FastCreate.php</file>
-        <dir name="FastCreate" role="php">
-          <file>Text.php</file>
-          <file>XML_Tree.php</file>
-            <dir name="tags" role="php">
-              <file>HTML_4_01_STRICT.php</file>
-              <file>HTML_4_01_TRANSITIONAL.php</file>
-              <file>XHTML_1_0_STRICT.php</file>
-              <file>XHTML_1_0_TRANSITIONAL.php</file>
-            </dir>
-        </dir>
-        <dir name="tests" role="php">
-          <file>sample.php</file>
-          <file>example1.php</file>
-          <file>example2.php</file>
-          <file>example3.php</file>
-          <file>example4.php</file>
-          <file>example5.php</file>
-          <file>example.css</file>
-          <file>pear.php.net.html</file>
-        </dir>
-        <dir name="dtd" role="php">
-          <file>html_4_01_frameset.dtd</file>
-          <file>html_4_01_transitional.dtd</file>
-          <file>html_4_01_strict.dtd</file>
-          <file>xhtml_1_0_frameset.dtd</file>
-          <file>xhtml_1_0_transitional.dtd</file>
-          <file>xhtml_1_0_strict.dtd</file>
-          <file>xhtml_1_1.dtd</file>
-        </dir>
-      </dir>
-      <dir name="script" baseinstalldir="/" role="php">
-        <file>HTML2XFC.php</file>
-      </dir>
-    </filelist>
-    <deps>
-        <dep type="php" rel="ge" version="4.3.2" />
-        <dep type="pkg" rel="ge" version="2.0b2" optional="yes">XML_Tree</dep>
-        <dep type="pkg" rel="ge" version="0.4.1" optional="yes">XML_DTD</dep>
-        <dep type="pkg" rel="ge" version="1.1" optional="yes">XML_Beautifier</dep>
-        <dep type="pkg" rel="ge" version="2.1.2" optional="yes">XML_HTMLSax</dep>
-    </deps>
-  </release>
+ </description>
+ <lead>
+  <name>Guillaume Lecanu</name>
+  <user>neokod</user>
+  <email>Guillaume@lya.fr</email>
+  <active>yes</active>
+ </lead>
+ <date>2010-10-25</date>
+ <time>23:48:04</time>
+ <version>
+  <release>1.0.3</release>
+  <api>1.0.3</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+Bugfixes quote()
+ </notes>
+ <contents>
+  <dir name="/">
+   <dir name="dtd">
+    <file baseinstalldir="/XML" name="html_4_01_frameset.dtd" role="php" />
+    <file baseinstalldir="/XML" name="html_4_01_strict.dtd" role="php" />
+    <file baseinstalldir="/XML" name="html_4_01_transitional.dtd" role="php" />
+    <file baseinstalldir="/XML" name="xhtml_1_0_frameset.dtd" role="php" />
+    <file baseinstalldir="/XML" name="xhtml_1_0_strict.dtd" role="php" />
+    <file baseinstalldir="/XML" name="xhtml_1_0_transitional.dtd" role="php" />
+    <file baseinstalldir="/XML" name="xhtml_1_1.dtd" role="php" />
+   </dir> <!-- /dtd -->
+   <dir name="FastCreate">
+    <dir name="tags">
+     <file baseinstalldir="/XML" name="HTML_4_01_STRICT.php" role="php" />
+     <file baseinstalldir="/XML" name="HTML_4_01_TRANSITIONAL.php" role="php" />
+     <file baseinstalldir="/XML" name="XHTML_1_0_STRICT.php" role="php" />
+     <file baseinstalldir="/XML" name="XHTML_1_0_TRANSITIONAL.php" role="php" />
+    </dir> <!-- /FastCreate/tags -->
+    <file baseinstalldir="/XML" name="Text.php" role="php" />
+    <file baseinstalldir="/XML" name="XML_Tree.php" role="php" />
+   </dir> <!-- /FastCreate -->
+   <dir name="script">
+    <file baseinstalldir="/" name="HTML2XFC.php" role="php" />
+   </dir> <!-- /script -->
+   <dir name="tests">
+    <file baseinstalldir="/XML" name="example.css" role="php" />
+    <file baseinstalldir="/XML" name="example1.php" role="php" />
+    <file baseinstalldir="/XML" name="example2.php" role="php" />
+    <file baseinstalldir="/XML" name="example3.php" role="php" />
+    <file baseinstalldir="/XML" name="example4.php" role="php" />
+    <file baseinstalldir="/XML" name="example5.php" role="php" />
+    <file baseinstalldir="/XML" name="pear.php.net.html" role="php" />
+    <file baseinstalldir="/XML" name="sample.php" role="php" />
+   </dir> <!-- /tests -->
+   <file baseinstalldir="/XML" name="FastCreate.php" role="php" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.3.2</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+  <optional>
+   <package>
+    <name>XML_Tree</name>
+    <channel>pear.php.net</channel>
+    <min>2.0b2</min>
+   </package>
+   <package>
+    <name>XML_DTD</name>
+    <channel>pear.php.net</channel>
+    <min>0.4.1</min>
+   </package>
+   <package>
+    <name>XML_Beautifier</name>
+    <channel>pear.php.net</channel>
+    <min>1.1</min>
+   </package>
+   <package>
+    <name>XML_HTMLSax</name>
+    <channel>pear.php.net</channel>
+    <min>2.1.2</min>
+   </package>
+  </optional>
+ </dependencies>
+ <phprelease />
 </package>
-
