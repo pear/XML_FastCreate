@@ -1,0 +1,31 @@
+{
+    "authors": [
+        {
+            "email": "Guillaume@lya.fr",
+            "name": "Guillaume Lecanu",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "XML_FastCreate": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/XML_FastCreate",
+    "include-path": [
+        "./"
+    ],
+    "license": "PHP License",
+    "name": "pear/xml_fastcreate",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=XML_FastCreate",
+        "source": "https://github.com/pear/XML_FastCreate"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
